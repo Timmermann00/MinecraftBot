@@ -1,3 +1,5 @@
+//this is the start of the program
+
 const mineflayer = require('mineflayer')
 const { initializeBot, createBotOptions } = require('./initializeBot')
 const prompt = require('prompt-sync')({sigint: true})
