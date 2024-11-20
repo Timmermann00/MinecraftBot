@@ -22,6 +22,8 @@ async function collectBlocks(bot, itemType) {
         maxDistance: 64
     })
 
+    //This is a test
+    if(blockToCollect) return
     if (blockToCollect && isFarming) {
         try {
             await bot.collectBlock.collect(blockToCollect)
