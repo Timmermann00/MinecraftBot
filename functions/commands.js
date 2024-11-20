@@ -1,7 +1,10 @@
 const { goals } = require('mineflayer-pathfinder')
 
+let isFarming = false
 
 async function collectBlocks(bot, itemType) {
+    if (!isFarming) return
+    
     const mcData = bot.getMcData()
     if (!mcData) {
         bot.chat("Minecraft data not loaded yet!")
@@ -19,11 +22,14 @@ async function collectBlocks(bot, itemType) {
         maxDistance: 64
     })
 
-    if (blockToCollect) {
+    if (blockToCollect && isFarming) {
         try {
             await bot.collectBlock.collect(blockToCollect)
             bot.chat(`Collected ${itemType}!`)
-            collectBlocks(bot, itemType)
+            // Only continue if farming is still active
+            if (isFarming) {
+                collectBlocks(bot, itemType)
+            }
         } catch (err) {
             console.log('Error while collecting:', err)
             bot.chat('Error while collecting the block.')
@@ -51,14 +57,16 @@ const commands = {
     
     farm: (bot, userId, args) => {
         if (!args[0]) {
-            bot.chat('Please enter a block type. Example: farm dirt')
+            bot.chat('Please specify a block type. Example: farm dirt')
             return
         }
+        isFarming = true
         const itemType = args[0]
         collectBlocks(bot, itemType)
     },
     
     stop: (bot) => {
+        isFarming = false
         bot.pathfinder.setGoal(null)
         bot.chat('Stopped all activities')
     },
