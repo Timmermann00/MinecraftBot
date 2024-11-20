@@ -1,6 +1,8 @@
 const mineflayer = require('mineflayer')
 const { pathfinder, Movements } = require('mineflayer-pathfinder')
 const collectBlock = require('mineflayer-collectblock').plugin
+const { handleCommand } = require('./functions/commands')
+
 
 const baseOptions = {
     host: 'localhost',
