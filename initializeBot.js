@@ -80,12 +80,7 @@ async function collectBlocks(bot) {
     }
 }
 
-const bots = []
-for (let i = 0; i < 10; i++) {
-    const bot = mineflayer.createBot(createBotOptions('bot'+i));
-    initializeBot(bot);
-    bots.push(bot);
-    console.log('Created bot' + i);
+module.exports = {
+    createBotOptions,
+    initializeBot
 }
-
-console.log('All bots finished')
