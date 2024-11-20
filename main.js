@@ -1,12 +1,27 @@
 const mineflayer = require('mineflayer')
-const { initializeBot, createBotOptions } = require('./initializeBot');
+const { initializeBot, createBotOptions } = require('./initializeBot')
+const prompt = require('prompt-sync')({sigint: true})
 
 const bots = []
-for (let i = 0; i < 1; i++) {
-    const bot = mineflayer.createBot(createBotOptions('bot'+i));
-    initializeBot(bot);
-    bots.push(bot);
-    console.log('Created bot' + i);
+
+const port = parseInt(prompt('Enter port number: '))
+const botCount = parseInt(prompt('Enter number of bots to create: '))
+
+if (isNaN(botCount) || botCount < 1) {
+    console.error('Invalid bot count. Must be at least 1')
+    process.exit(1)
 }
 
-console.log('All bots finished')
+require('./initializeBot').updatePort(port)
+
+try {
+    for (let i = 0; i < botCount; i++) {
+        const bot = mineflayer.createBot(createBotOptions('bot'+i))
+        initializeBot(bot)
+        bots.push(bot)
+        console.log('Created bot' + i)
+    }
+    console.log('All bots created successfully')
+} catch (error) {
+    console.error('Error creating bots:', error)
+}

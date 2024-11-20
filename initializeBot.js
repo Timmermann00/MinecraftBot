@@ -1,12 +1,14 @@
 const mineflayer = require('mineflayer')
-const { pathfinder, Movements, goals } = require('mineflayer-pathfinder')
+const { pathfinder, Movements } = require('mineflayer-pathfinder')
 const collectBlock = require('mineflayer-collectblock').plugin
-const { handleCommand } = require('./functions/commands')
-let mcData
 
 const baseOptions = {
     host: 'localhost',
-    port: 5276
+    port: 25565  // Default port
+}
+
+function updatePort(newPort) {
+    baseOptions.port = newPort
 }
 
 function createBotOptions(username) {
@@ -40,5 +42,6 @@ function initializeBot(bot) {
 
 module.exports = {
     createBotOptions,
-    initializeBot
+    initializeBot,
+    updatePort
 }
